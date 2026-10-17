@@ -1,4 +1,4 @@
--- Venyx 中文界面版
+-- Venyx 中文界面版 · 第2批词条补全
 -- 基于用户采集的界面文字制作；保留原版加载器。
 -- 基础词典来源：https://github.com/dajsdjalsj/chilli-hanhua
 local Engine = (function()
@@ -241,6 +241,7 @@ local DICTIONARY = {
     ["Bar size"] = "进度条大小",
     ["Bases"] = "基地",
     ["Basic"] = "基础",
+    ["Bat"] = "棒球棍",
     ["Be the first to comment"] = "来抢第一条评论吧",
     ["Bear"] = "熊",
     ["Beluga Whale"] = "白鲸",
@@ -436,6 +437,7 @@ local DICTIONARY = {
     ["Credits"] = "作者",
     ["Crocodile"] = "鳄鱼",
     ["Crocodon"] = "鳄龙",
+    ["Crossing into base"] = "正在进入基地",
     ["Crustacia"] = "甲壳蟹",
     ["Crustacia Egg"] = "甲壳蛋",
     ["Crystal Cherry Blossom Trees"] = "水晶樱花树",
@@ -566,6 +568,7 @@ local DICTIONARY = {
     ["Eggs Grow "] = "蛋生长",
     ["Eggs Stolen"] = "已偷蛋数",
     ["Eggs to keep"] = "要保留的蛋",
+    ["Eggs will be dropped in front of the safe zone. They will NOT be stolen into your base."] = "蛋会被放在安全区前方，不会被偷入你的基地。",
     ["Eject Incomplete Slots"] = "弹出未满槽位",
     ["Eject odd pets"] = "移出不符合条件的宠物",
     ["El Maja"] = "玛雅树",
@@ -640,6 +643,7 @@ local DICTIONARY = {
     ["FUSE PREDICTOR"] = "融合预测器",
     ["Farm"] = "挂机",
     ["Farm HUD"] = "挂机 HUD",
+    ["Fast tween to egg"] = "快速平滑移动到蛋的位置",
     ["Favorite"] = "收藏",
     ["Favorite Equipped Now"] = "立即收藏已装备",
     ["Favorite Min Rarity"] = "收藏最低稀有度",
@@ -935,6 +939,7 @@ local DICTIONARY = {
     ["Lab odds"] = "实验室概率",
     ["Lab status unknown"] = "实验室状态未知",
     ["Lab stock"] = "实验室储备",
+    ["Label"] = "标签",
     ["Lake"] = "湖泊",
     ["Lands in"] = "落地倒计时",
     ["Last egg"] = "上一个蛋",
@@ -1381,6 +1386,7 @@ local DICTIONARY = {
     ["Reset every feature to its built-in default"] = "把所有功能恢复为内置默认值",
     ["Reset to Defaults"] = "恢复默认设置",
     ["Reset to defaults"] = "恢复默认设置",
+    ["Resetting carry"] = "正在重置持蛋状态",
     ["Respawned, going out through the safe zone"] = "已复活，经安全区出发",
     ["Respawned, resting in the safe zone"] = "已复活，在安全区休整",
     ["Restart Now"] = "立即重启",
@@ -1666,6 +1672,8 @@ local DICTIONARY = {
     ["Steal wisp eggs"] = "偷取精灵任务所需的蛋",
     ["Steal x1 Egg from Desert Zone"] = "从沙漠区域偷 1 个蛋",
     ["Steal, NightHome"] = "偷蛋、夜间回家",
+    ["Steal, Place"] = "偷蛋、放置",
+    ["Steal, Place +1"] = "偷蛋、放置 +1 项任务",
     ["Steal, Treadmill"] = "偷蛋、跑步机",
     ["Steal, Treadmill +1"] = "偷蛋、跑步机 +1 项任务",
     ["Step into your next recording session."] = "进入你的下一次录制",
@@ -1704,12 +1712,14 @@ local DICTIONARY = {
     ["TRex"] = "霸王龙",
     ["Take it from the holder"] = "从当前持有者手中夺取",
     ["Take out pets that can't make a set"] = "取出凑不成一套的宠物",
+    ["Taking the egg back"] = "正在把蛋带回",
     ["Talk to the Baby Wisp"] = "去找精灵宝宝对话",
     ["Tap Anywhere to Skip"] = "点击任意位置跳过",
     ["Target Areas"] = "目标区域",
     ["Target Specific Eggs"] = "指定目标蛋",
     ["Task Priority"] = "任务优先级",
     ["Task order"] = "任务顺序",
+    ["Teleport to egg"] = "传送到蛋的位置",
     ["Teleport zones"] = "传送区域",
     ["Teleporting to the Mech portal"] = "正在传送到机甲传送门",
     ["Terra Snapper"] = "大地龟",
@@ -1772,6 +1782,7 @@ local DICTIONARY = {
     ["Turn off"] = "关闭",
     ["Turn off all toggles"] = "关闭所有开关",
     ["Turn off to disable every feature hotkey"] = "关闭后禁用所有功能热键",
+    ["Turn on"] = "开启",
     ["Turn on Auto Hop to start hunting"] = "打开自动换服后才会开始寻找",
     ["Turn yourself or another player into an egg."] = "把你或另一名玩家变成蛋",
     ["Turning invisible"] = "正在隐身",
@@ -1855,6 +1866,7 @@ local DICTIONARY = {
     ["Waiting for mech"] = "等待机甲",
     ["Waiting for pets"] = "等待宠物",
     ["Walk speed"] = "行走速度",
+    ["Walking to your pen"] = "正在走向你的围栏",
     ["Walrus"] = "海象",
     ["Watch Now!"] = "立即观看!",
     ["Watch from another player's point of view. Nothing on screen shows it."] = "以其他玩家视角观看，画面上不会有任何显示",
@@ -1994,6 +2006,12 @@ local function plain(s, depth)
     end
     n = core:match("^(%d+) lab egg%(s%) match$")
     if n then return lead .. "符合条件的实验室蛋：" .. n .. tail end
+    n = core:match("^(%d+) egg%(s%) can be mutated$")
+    if n then return lead .. "有 " .. n .. " 个蛋可突变" .. tail end
+    n = core:match("^Placed (%d+) egg%(s%)$")
+    if n then return lead .. "已放置 " .. n .. " 个蛋" .. tail end
+    local percent, growthTime = core:match("^GROWING ([%d%.]+)%%%s*·%s*(.+)$")
+    if percent then return lead .. "生长中 " .. percent .. "%  ·  " .. duration(growthTime) .. tail end
     local qty, unit = core:match("^(%d+) (%a+)s? ago$")
     local ago = { day = "天", days = "天", hour = "小时", hours = "小时",
         minute = "分", minutes = "分", second = "秒", seconds = "秒" }
@@ -2006,6 +2024,8 @@ local function plain(s, depth)
     if bar then return lead .. "快捷栏 " .. bar .. tail end
     local animal = core:match("^Carrying (.+) home$")
     if animal then return lead .. "正在将" .. tr(animal) .. "带回家" .. tail end
+    animal = core:match("^Dropped (.+) at the safe zone$")
+    if animal then return lead .. "已将" .. tr(animal) .. "放在安全区" .. tail end
     animal = core:match("^Going to (.+)$")
     if animal then return lead .. "正在前往：" .. tr(animal) .. tail end
     animal = core:match("^Taking (.+) in$")
@@ -2157,6 +2177,15 @@ local function hasUnknown(text)
 end
 local function collect(original, translated)
     if Engine.IsIntentional(original) or not hasUnknown(translated) or pendingSet[original] then return end
+    -- Player identifiers stay unchanged and are not missing translation entries.
+    local function matchesPlayer(player)
+        return player and (original == player.Name or original == player.DisplayName)
+    end
+    if matchesPlayer(Players.LocalPlayer) then return end
+    local ok, players = pcall(function() return Players:GetPlayers() end)
+    if ok then
+        for _, player in ipairs(players) do if matchesPlayer(player) then return end end
+    end
     pendingSet[original] = true
     pending[#pending + 1] = original
     dirty = true
